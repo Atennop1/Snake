@@ -2,16 +2,16 @@
 {
     public sealed class CellsField : ICellsField
     {
+        public int SizeX { get; }
+        public int SizeY { get; }
+        
         private readonly ICell[,] _cells;
 
-        public CellsField(ICell[,] cells) 
-            => _cells = cells ?? throw new ArgumentNullException(nameof(cells));
-
-        public bool IsExist(int x, int y)
+        public CellsField(ICell[,] cells)
         {
-            var xLength = _cells.GetLength(1);
-            var yLength = _cells.GetLength(0);
-            return (yLength > y && y >= 0) && (xLength > x && x >= 0);
+            SizeY = cells.GetLength(0);
+            SizeX = cells.GetLength(1);
+            _cells = cells ?? throw new ArgumentNullException(nameof(cells));
         }
 
         public ICell GetCell(int x, int y)
