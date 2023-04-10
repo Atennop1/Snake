@@ -1,4 +1,6 @@
-﻿namespace Snake.Core
+﻿using Snake.Tools;
+
+namespace Snake.Core
 {
     public sealed class Cell : ICell
     {

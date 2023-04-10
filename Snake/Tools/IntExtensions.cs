@@ -1,4 +1,4 @@
-﻿namespace Snake
+﻿namespace Snake.Tools
 {
     public static class IntExtensions
     {

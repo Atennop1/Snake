@@ -18,6 +18,6 @@
             => _cells[y, x];
 
         public void ReplaceCell(int x, int y, ICell cell) 
-            => _cells[y, x] = cell;
+            => _cells[y, x] = cell ?? throw new ArgumentNullException(nameof(cell));
     }
 }

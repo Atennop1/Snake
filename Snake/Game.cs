@@ -1,10 +1,12 @@
-﻿namespace Snake
+﻿using Snake.Factories;
+
+namespace Snake
 {
     public sealed class Game
     {
         public void Play()
         {
-            Console.WriteLine("There will be console snake ;)");
+            var field = new CellsFieldFactory().Create(10, 10);
         }
     }
 }
