@@ -19,14 +19,7 @@ namespace Snake.Core
             X = x.ThrowExceptionIfLessThanZero();
             Y = y.ThrowExceptionIfLessThanZero();
         }
-
-        public void TurnIntoSnake()
-        {
-            IsPlayer = true;
-            IsWall = IsFood = false;
-            _cellView.DisplaySnake(X, Y);
-        }
-
+        
         public void TurnIntoFood()
         {
             IsFood = true;
@@ -45,6 +38,27 @@ namespace Snake.Core
         {
             IsPlayer = IsWall = IsFood = false;
             _cellView.DisplayVoid(X, Y);
+        }
+
+        public void TurnIntoSnakeBody()
+        {
+            IsPlayer = true;
+            IsWall = IsFood = false;
+            _cellView.DisplaySnakeBody(X, Y);
+        }
+
+        public void TurnIntoSnakeHead()
+        {
+            IsPlayer = true;
+            IsWall = IsFood = false;
+            _cellView.DisplaySnakeHead(X, Y);
+        }
+
+        public void TurnIntoSnakeTail()
+        {
+            IsPlayer = true;
+            IsWall = IsFood = false;
+            _cellView.DisplaySnakeTail(X, Y);
         }
     }
 }

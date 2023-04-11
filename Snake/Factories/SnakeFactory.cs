@@ -18,10 +18,12 @@ namespace Snake.Factories
             for (var i = -2; i < 3; i++)
             {
                 var cell = _cellsField.Cells[yOfFieldCenter + i, xOfFieldCenter];
-                cell.TurnIntoSnake();
+                cell.TurnIntoSnakeBody();
                 bodyCells.Add(cell);
             }
-
+            
+            bodyCells[0].TurnIntoSnakeTail();
+            bodyCells[^1].TurnIntoSnakeHead();
             return new Snake.Player.Snake(_cellsField, bodyCells);
         }
     }

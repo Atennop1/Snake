@@ -8,10 +8,12 @@
         bool IsPlayer { get; }
         bool IsWall { get; }
         bool IsFood { get; }
-
-        void TurnIntoSnake();
+        
         void TurnIntoFood();
-        void TurnIntoWall();
         void Clear();
+        
+        void TurnIntoSnakeBody();
+        void TurnIntoSnakeHead();
+        void TurnIntoSnakeTail();
     }
 }

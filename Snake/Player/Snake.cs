@@ -8,8 +8,8 @@ namespace Snake.Player
     {
         public bool IsAlive { get; private set; }
         
-        private ICell Head => _bodyCells[^1];
-        private ICell Tail => _bodyCells[0];
+        private ICell HeadCell => _bodyCells[^1];
+        private ICell TailCell => _bodyCells[0];
 
         private readonly ICellsField _cellsField;
         private readonly List<ICell> _bodyCells;
@@ -37,11 +37,13 @@ namespace Snake.Player
             
             if (!nextCell.IsFood)
             {
-                Tail.Clear();
-                _bodyCells.Remove(Tail);
+                TailCell.Clear();
+                _bodyCells.Remove(TailCell);
+                TailCell.TurnIntoSnakeTail();
             }
             
-            nextCell.TurnIntoSnake();
+            HeadCell.TurnIntoSnakeBody();
+            nextCell.TurnIntoSnakeHead();
             _bodyCells.Add(nextCell);
         }
 
@@ -61,7 +63,7 @@ namespace Snake.Player
                 _ => 0
             };
 
-            return _cellsField.Cells[Head.Y + yShift, Head.X + xShift];
+            return _cellsField.Cells[HeadCell.Y + yShift, HeadCell.X + xShift];
         }
 
         public bool CanRotate(RotateDirection direction)
