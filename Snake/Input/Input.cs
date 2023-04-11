@@ -26,6 +26,9 @@ namespace Snake.Input
                 ConsoleKey.RightArrow => RotateDirection.Right,
                 ConsoleKey.UpArrow => RotateDirection.Up
             };
+
+            if (!_snake.CanRotate(rotateDirection))
+                return;
             
             _snake.Rotate(rotateDirection);
         }
