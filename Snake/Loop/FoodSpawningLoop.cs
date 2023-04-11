@@ -6,15 +6,25 @@ namespace Snake.Loop
     public sealed class FoodSpawningLoop : IGameLoopObject
     {
         private readonly IFoodFactory _foodFactory;
-        private ICell _lastFoodCell;
+        private readonly ICellsField _cellsField;
 
-        public FoodSpawningLoop(IFoodFactory foodFactory) 
-            => _foodFactory = foodFactory ?? throw new ArgumentNullException(nameof(foodFactory));
+        private int _lastSpawnedFoodX;
+        private int _lastSpawnedFoodY;
+
+        public FoodSpawningLoop(IFoodFactory foodFactory, ICellsField cellsField)
+        {
+            _foodFactory = foodFactory ?? throw new ArgumentNullException(nameof(foodFactory));
+            _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
+        }
 
         public void Update(int delta)
         {
-            if (_lastFoodCell == null || (!_lastFoodCell.IsFood && _foodFactory.CanCreate))
-                _lastFoodCell = _foodFactory.CreateInRandomCell();
+            if (_cellsField.GetCell(_lastSpawnedFoodX, _lastSpawnedFoodY).IsFood || !_foodFactory.CanCreate) 
+                return;
+            
+            var food = _foodFactory.CreateInRandomCell();
+            _lastSpawnedFoodX = food.X;
+            _lastSpawnedFoodY = food.Y;
         }
     }
 }

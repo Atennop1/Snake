@@ -1,4 +1,5 @@
 ﻿using Snake.Core;
+using Snake.Factories;
 using Snake.Input;
 using Snake.Loop;
 
@@ -6,21 +7,22 @@ namespace Snake.Player
 {
     public sealed class Snake : ISnake, IGameLoopObject
     {
-        public bool IsAlive { get; private set; }
+        public bool IsAlive { get; private set; } = true;
         
         private ICell HeadCell => _bodyCells[^1];
         private ICell TailCell => _bodyCells[0];
 
         private readonly ICellsField _cellsField;
         private readonly List<ICell> _bodyCells;
-        private RotateDirection _currentDirection;
+        private readonly ICellsFactory _cellsFactory;
+        
+        private RotateDirection _currentDirection = RotateDirection.Down;
 
-        public Snake(ICellsField cellsField, List<ICell> bodyCells)
+        public Snake(ICellsField cellsField, List<ICell> bodyCells, ICellsFactory cellsFactory)
         {
             _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
             _bodyCells = bodyCells ?? throw new ArgumentNullException(nameof(bodyCells));
-            _currentDirection = RotateDirection.Down;
-            IsAlive = true;
+            _cellsFactory = cellsFactory ?? throw new ArgumentNullException(nameof(cellsFactory));
         }
 
         public void Update(int delta)
@@ -37,13 +39,13 @@ namespace Snake.Player
             
             if (!nextCell.IsFood)
             {
-                TailCell.Clear();
+                _cellsField.ReplaceCell(_cellsFactory.CreateVoid(TailCell.X, TailCell.Y));
                 _bodyCells.Remove(TailCell);
-                TailCell.TurnIntoSnakeTail();
+                _cellsField.ReplaceCell(_cellsFactory.CreateSnakeTail(TailCell.X, TailCell.Y));
             }
             
-            HeadCell.TurnIntoSnakeBody();
-            nextCell.TurnIntoSnakeHead();
+            _cellsField.ReplaceCell(_cellsFactory.CreateSnakeBody(HeadCell.X, HeadCell.Y));
+            _cellsField.ReplaceCell(_cellsFactory.CreateSnakeHead(nextCell.X, nextCell.Y));
             _bodyCells.Add(nextCell);
         }
 
@@ -63,7 +65,7 @@ namespace Snake.Player
                 _ => 0
             };
 
-            return _cellsField.Cells[HeadCell.Y + yShift, HeadCell.X + xShift];
+            return _cellsField.GetCell(HeadCell.X + xShift, HeadCell.Y + yShift);
         }
 
         public bool CanRotate(RotateDirection direction)

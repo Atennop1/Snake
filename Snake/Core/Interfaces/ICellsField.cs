@@ -2,9 +2,10 @@
 {
     public interface ICellsField
     {
-        ICell[,] Cells { get; }
-        
         int SizeX { get; }
         int SizeY { get; }
+
+        ICell GetCell(int x, int y);
+        void ReplaceCell(ICell cell);
     }
 }

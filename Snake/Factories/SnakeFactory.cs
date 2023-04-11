@@ -2,12 +2,16 @@
 
 namespace Snake.Factories
 {
-    public sealed class SnakeFactory
+    public sealed class SnakeFactory : ISnakeFactory
     {
         private readonly ICellsField _cellsField;
+        private readonly ICellsFactory _cellsFactory;
 
-        public SnakeFactory(ICellsField cellsField) 
-            => _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
+        public SnakeFactory(ICellsField cellsField, ICellsFactory cellsFactory)
+        {
+            _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
+            _cellsFactory = cellsFactory ?? throw new ArgumentNullException(nameof(cellsFactory));
+        }
 
         public Snake.Player.Snake Create()
         {
@@ -17,14 +21,19 @@ namespace Snake.Factories
 
             for (var i = -2; i < 3; i++)
             {
-                var cell = _cellsField.Cells[yOfFieldCenter + i, xOfFieldCenter];
-                cell.TurnIntoSnakeBody();
+                var cell = _cellsFactory.CreateSnakeBody(xOfFieldCenter, yOfFieldCenter + i);
+                
+                if (i == -2)
+                    cell = _cellsFactory.CreateSnakeTail(xOfFieldCenter, yOfFieldCenter + i);
+                
+                if (i == 2)
+                    cell = _cellsFactory.CreateSnakeHead(xOfFieldCenter, yOfFieldCenter + i);
+                
+                _cellsField.ReplaceCell(cell);
                 bodyCells.Add(cell);
             }
-            
-            bodyCells[0].TurnIntoSnakeTail();
-            bodyCells[^1].TurnIntoSnakeHead();
-            return new Snake.Player.Snake(_cellsField, bodyCells);
+
+            return new Snake.Player.Snake(_cellsField, bodyCells, _cellsFactory);
         }
     }
 }

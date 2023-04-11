@@ -24,7 +24,8 @@ namespace Snake.Input
                 ConsoleKey.DownArrow => RotateDirection.Down,
                 ConsoleKey.LeftArrow => RotateDirection.Left,
                 ConsoleKey.RightArrow => RotateDirection.Right,
-                ConsoleKey.UpArrow => RotateDirection.Up
+                ConsoleKey.UpArrow => RotateDirection.Up,
+                _ => throw new ArgumentOutOfRangeException()
             };
 
             if (!_snake.CanRotate(rotateDirection))

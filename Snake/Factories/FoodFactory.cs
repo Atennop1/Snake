@@ -5,9 +5,13 @@ namespace Snake.Factories
     public sealed class FoodFactory : IFoodFactory
     {
         private readonly ICellsField _cellsField;
+        private readonly ICellsFactory _cellsFactory;
 
-        public FoodFactory(ICellsField cellsField) 
-            => _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
+        public FoodFactory(ICellsField cellsField, ICellsFactory cellsFactory)
+        {
+            _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
+            _cellsFactory = cellsFactory ?? throw new ArgumentNullException(nameof(cellsFactory));
+        }
 
         public bool CanCreate
         {
@@ -17,7 +21,7 @@ namespace Snake.Factories
                 {
                     for (var j = 0; j < _cellsField.SizeX; j++)
                     {
-                        var cell = _cellsField.Cells[i, j];
+                        var cell = _cellsField.GetCell(j, i);
                         if (!cell.IsFood && !cell.IsPlayer && !cell.IsWall)
                             return true;
                     }
@@ -33,13 +37,13 @@ namespace Snake.Factories
                 throw new InvalidOperationException("Field is full");
             
             var random = new Random();
-            var cellInWhichCreating = _cellsField.Cells[random.Next(0, _cellsField.SizeY), random.Next(0, _cellsField.SizeX)];
+            var cellInWhichCreating = _cellsField.GetCell(random.Next(0, _cellsField.SizeX), random.Next(0, _cellsField.SizeY));
             
             while (cellInWhichCreating.IsPlayer || cellInWhichCreating.IsWall || cellInWhichCreating.IsFood)
-                cellInWhichCreating = _cellsField.Cells[random.Next(0, _cellsField.SizeY), random.Next(0, _cellsField.SizeX)];
+                cellInWhichCreating = _cellsField.GetCell(random.Next(0, _cellsField.SizeX), random.Next(0, _cellsField.SizeY));
             
-            cellInWhichCreating.TurnIntoFood();
-            return cellInWhichCreating;
+            _cellsField.ReplaceCell(_cellsFactory.CreateFood(cellInWhichCreating.X, cellInWhichCreating.Y));
+            return _cellsField.GetCell(cellInWhichCreating.X, cellInWhichCreating.Y);
         }
     }
 }
