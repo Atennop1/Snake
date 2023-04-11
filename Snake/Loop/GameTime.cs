@@ -1,10 +1,15 @@
-﻿namespace Snake.Loop
+﻿using Snake.Tools;
+
+namespace Snake.Loop
 {
     public sealed class GameTime : IGameTime
     {
         public bool IsActive { get; private set; }
-        public int DeltaTime => 300;
-        
+        public int DeltaTime { get; }
+
+        public GameTime(int deltaTime) 
+            => DeltaTime = deltaTime.ThrowExceptionIfLessOrEqualsZero();
+
         public void Start() 
             => IsActive = true;
 

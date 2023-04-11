@@ -1,9 +1,10 @@
 ﻿using Snake.Input;
 
-namespace Snake.Player;
-
-public interface ISnake
+namespace Snake.Player
 {
-    bool CanRotate(RotateDirection direction);
-    void Rotate(RotateDirection direction);
+    public interface ISnake
+    {
+        bool CanRotate(RotateDirection direction);
+        void Rotate(RotateDirection direction);
+    }
 }

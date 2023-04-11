@@ -23,7 +23,7 @@
         public void DisplayVoid(int x, int y)
         {
             Console.SetCursorPosition(x * 2, y);
-            Console.Write(". ");
+            Console.Write("  ");
         }
     }
 }

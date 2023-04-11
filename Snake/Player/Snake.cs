@@ -8,8 +8,8 @@ namespace Snake.Player
     {
         public bool IsAlive { get; private set; }
         
-        private ICell Head => _bodyCells[0];
-        private ICell Tail => _bodyCells[^1];
+        private ICell Head => _bodyCells[^1];
+        private ICell Tail => _bodyCells[0];
 
         private readonly ICellsField _cellsField;
         private readonly List<ICell> _bodyCells;
@@ -19,6 +19,7 @@ namespace Snake.Player
         {
             _cellsField = cellsField ?? throw new ArgumentNullException(nameof(cellsField));
             _bodyCells = bodyCells ?? throw new ArgumentNullException(nameof(bodyCells));
+            _currentDirection = RotateDirection.Down;
             IsAlive = true;
         }
 
@@ -33,7 +34,7 @@ namespace Snake.Player
                 IsAlive = false;
                 return;
             }
-
+            
             if (!nextCell.IsFood)
             {
                 Tail.Clear();
@@ -55,12 +56,12 @@ namespace Snake.Player
             
             var yShift = _currentDirection switch
             {
-                RotateDirection.Down => -1,
-                RotateDirection.Up => 1,
+                RotateDirection.Down => 1,
+                RotateDirection.Up => -1,
                 _ => 0
             };
 
-            return _cellsField.GetCell(Head.X + xShift, Head.Y + yShift);
+            return _cellsField.Cells[Head.Y + yShift, Head.X + xShift];
         }
 
         public bool CanRotate(RotateDirection direction)

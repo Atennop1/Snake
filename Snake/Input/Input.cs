@@ -15,10 +15,10 @@ namespace Snake.Input
             if (!Console.KeyAvailable) 
                 return;
             
-            var keyInfo = Console.ReadKey();
-            if (keyInfo.Key is not ConsoleKey.DownArrow or ConsoleKey.LeftArrow or ConsoleKey.RightArrow or ConsoleKey.UpArrow)
+            var keyInfo = Console.ReadKey(true);
+            if (keyInfo.Key != ConsoleKey.DownArrow && keyInfo.Key != ConsoleKey.LeftArrow && keyInfo.Key != ConsoleKey.RightArrow && keyInfo.Key != ConsoleKey.UpArrow)
                 return;
-            
+
             var rotateDirection = keyInfo.Key switch
             {
                 ConsoleKey.DownArrow => RotateDirection.Down,

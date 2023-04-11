@@ -1,7 +1,8 @@
-﻿namespace Snake.Loop;
-
-public interface IReadOnlyGameTime
+﻿namespace Snake.Loop
 {
-    bool IsActive { get; }
-    int DeltaTime { get; }
+    public interface IReadOnlyGameTime
+    {
+        bool IsActive { get; }
+        int DeltaTime { get; }
+    }
 }
