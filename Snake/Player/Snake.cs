@@ -1,11 +1,10 @@
 ﻿using Snake.Core;
 using Snake.Factories;
 using Snake.Input;
-using Snake.Loop;
 
 namespace Snake.Player
 {
-    public sealed class Snake : ISnake, IGameLoopObject
+    public sealed class Snake : ISnake
     {
         public bool IsAlive { get; private set; } = true;
         
@@ -16,7 +15,7 @@ namespace Snake.Player
         private readonly List<ICell> _bodyCells;
         private readonly ICellsFactory _cellsFactory;
         
-        private RotateDirection _currentDirection = RotateDirection.Down;
+        private Direction _currentDirection = Direction.Down;
 
         public Snake(ICellsField cellsField, List<ICell> bodyCells, ICellsFactory cellsFactory)
         {
@@ -31,13 +30,13 @@ namespace Snake.Player
                 return;
             
             var nextCell = GetNextCell();
-            if (nextCell.IsPlayer || nextCell.IsWall)
+            if (nextCell.Type is CellType.Wall or CellType.SnakeBody)
             {
                 IsAlive = false;
                 return;
             }
             
-            if (!nextCell.IsFood)
+            if (nextCell.Type != CellType.Food)
             {
                 _cellsField.ReplaceCell(_cellsFactory.CreateVoid(TailCell.X, TailCell.Y));
                 _bodyCells.Remove(TailCell);
@@ -53,28 +52,28 @@ namespace Snake.Player
         {
             var xShift = _currentDirection switch
             {
-                RotateDirection.Left => -1,
-                RotateDirection.Right => 1,
+                Direction.Left => -1,
+                Direction.Right => 1,
                 _ => 0
             };
             
             var yShift = _currentDirection switch
             {
-                RotateDirection.Down => 1,
-                RotateDirection.Up => -1,
+                Direction.Down => 1,
+                Direction.Up => -1,
                 _ => 0
             };
 
             return _cellsField.GetCell(HeadCell.X + xShift, HeadCell.Y + yShift);
         }
 
-        public bool CanRotate(RotateDirection direction)
-            => !((_currentDirection == RotateDirection.Down && direction == RotateDirection.Up) ||
-               (_currentDirection == RotateDirection.Up && direction == RotateDirection.Down) ||
-               (_currentDirection == RotateDirection.Left && direction == RotateDirection.Right) ||
-               (_currentDirection == RotateDirection.Right && direction == RotateDirection.Left));
+        public bool CanRotate(Direction direction)
+            => !((_currentDirection == Direction.Down && direction == Direction.Up) ||
+               (_currentDirection == Direction.Up && direction == Direction.Down) ||
+               (_currentDirection == Direction.Left && direction == Direction.Right) ||
+               (_currentDirection == Direction.Right && direction == Direction.Left));
 
-        public void Rotate(RotateDirection direction)
+        public void Rotate(Direction direction)
         {
             if (!CanRotate(direction))
                 throw new InvalidOperationException("Can't rotate snake to this direction");

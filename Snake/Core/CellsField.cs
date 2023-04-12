@@ -12,7 +12,7 @@
 
         public void ReplaceCell(ICell cell)
         {
-            if (_cells[cell.Y, cell.X].IsWall)
+            if (_cells[cell.Y, cell.X].Type == CellType.Wall)
                 throw new InvalidOperationException("Can't replace wall");
 
             _cells[cell.Y, cell.X] = cell ?? throw new ArgumentNullException(nameof(cell));

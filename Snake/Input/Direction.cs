@@ -1,6 +1,6 @@
 ﻿namespace Snake.Input
 {
-    public enum RotateDirection
+    public enum Direction
     {
         Left,
         Right,

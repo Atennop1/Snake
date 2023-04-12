@@ -1,10 +1,12 @@
 ﻿using Snake.Input;
+using Snake.Loop;
 
 namespace Snake.Player
 {
-    public interface ISnake
+    public interface ISnake : IGameLoopObject
     {
-        bool CanRotate(RotateDirection direction);
-        void Rotate(RotateDirection direction);
+        bool IsAlive { get; }
+        bool CanRotate(Direction direction);
+        void Rotate(Direction direction);
     }
 }

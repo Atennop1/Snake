@@ -22,7 +22,7 @@ namespace Snake.Factories
                     for (var j = 0; j < _cellsField.SizeX; j++)
                     {
                         var cell = _cellsField.GetCell(j, i);
-                        if (!cell.IsFood && !cell.IsPlayer && !cell.IsWall)
+                        if (cell.Type == CellType.Void)
                             return true;
                     }
                 }
@@ -39,7 +39,7 @@ namespace Snake.Factories
             var random = new Random();
             var cellInWhichCreating = _cellsField.GetCell(random.Next(0, _cellsField.SizeX), random.Next(0, _cellsField.SizeY));
             
-            while (cellInWhichCreating.IsPlayer || cellInWhichCreating.IsWall || cellInWhichCreating.IsFood)
+            while (cellInWhichCreating.Type != CellType.Void)
                 cellInWhichCreating = _cellsField.GetCell(random.Next(0, _cellsField.SizeX), random.Next(0, _cellsField.SizeY));
             
             _cellsField.ReplaceCell(_cellsFactory.CreateFood(cellInWhichCreating.X, cellInWhichCreating.Y));

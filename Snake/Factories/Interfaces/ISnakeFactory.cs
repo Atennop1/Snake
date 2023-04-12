@@ -1,7 +1,9 @@
-﻿namespace Snake.Factories
+﻿using Snake.Player;
+
+namespace Snake.Factories
 {
     public interface ISnakeFactory
     {
-        Snake.Player.Snake Create();
+        ISnake Create();
     }
 }

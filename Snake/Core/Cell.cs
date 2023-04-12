@@ -4,21 +4,16 @@ namespace Snake.Core
 {
     public sealed class Cell : ICell
     {
+        public CellType Type { get; }
+        
         public int X { get; }
         public int Y { get; }
-        
-        public bool IsPlayer { get; }
-        public bool IsWall { get; }
-        public bool IsFood { get; }
 
-        public Cell(int x, int y, bool isPlayer = false, bool isWall = false, bool isFood = false)
+        public Cell(CellType type, int x, int y)
         {
+            Type = type;
             X = x.ThrowExceptionIfLessThanZero();
             Y = y.ThrowExceptionIfLessThanZero();
-
-            IsPlayer = isPlayer;
-            IsWall = isWall;
-            IsFood = isFood;
         }
     }
 }

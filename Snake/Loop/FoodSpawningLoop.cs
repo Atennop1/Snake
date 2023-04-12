@@ -19,7 +19,7 @@ namespace Snake.Loop
 
         public void Update(int delta)
         {
-            if (_cellsField.GetCell(_lastSpawnedFoodX, _lastSpawnedFoodY).IsFood || !_foodFactory.CanCreate) 
+            if (_cellsField.GetCell(_lastSpawnedFoodX, _lastSpawnedFoodY).Type == CellType.Food || !_foodFactory.CanCreate) 
                 return;
             
             var food = _foodFactory.CreateInRandomCell();

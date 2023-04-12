@@ -1,7 +1,7 @@
 ﻿using Snake.Factories;
 using Snake.Loop;
 
-namespace Snake
+namespace Snake.Game
 {
     public sealed class Game
     {
@@ -19,7 +19,11 @@ namespace Snake
             var snakeFactory = new SnakeFactory(field, cellsFactory);
             var snake = snakeFactory.Create();
 
-            var snakeGameLoop = new GameLoop(new List<IGameLoopObject> { foodSpawningLoop, snake }, new GameTime(150));
+            var gameTime = new GameTime(150);
+            var gameOver = new GameOver(snake);
+            var gameWin = new GameWin(field, gameTime);
+
+            var snakeGameLoop = new GameLoop(new List<IGameLoopObject> { foodSpawningLoop, snake, gameOver, gameWin }, gameTime);
             snakeGameLoop.Activate();
 
             var input = new Input.Input(snake);

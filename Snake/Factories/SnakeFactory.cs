@@ -1,4 +1,5 @@
 ﻿using Snake.Core;
+using Snake.Player;
 
 namespace Snake.Factories
 {
@@ -13,7 +14,7 @@ namespace Snake.Factories
             _cellsFactory = cellsFactory ?? throw new ArgumentNullException(nameof(cellsFactory));
         }
 
-        public Snake.Player.Snake Create()
+        public ISnake Create()
         {
             var bodyCells = new List<ICell>();
             var xOfFieldCenter = _cellsField.SizeX / 2;

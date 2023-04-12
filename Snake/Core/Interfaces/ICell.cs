@@ -2,11 +2,9 @@
 {
     public interface ICell
     {
+        CellType Type { get; }
+        
         int X { get; }
         int Y { get; }
-        
-        bool IsPlayer { get; }
-        bool IsWall { get; }
-        bool IsFood { get; }
     }
 }

@@ -21,10 +21,10 @@ namespace Snake.Input
 
             var rotateDirection = keyInfo.Key switch
             {
-                ConsoleKey.DownArrow => RotateDirection.Down,
-                ConsoleKey.LeftArrow => RotateDirection.Left,
-                ConsoleKey.RightArrow => RotateDirection.Right,
-                ConsoleKey.UpArrow => RotateDirection.Up,
+                ConsoleKey.DownArrow => Direction.Down,
+                ConsoleKey.LeftArrow => Direction.Left,
+                ConsoleKey.RightArrow => Direction.Right,
+                ConsoleKey.UpArrow => Direction.Up,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
