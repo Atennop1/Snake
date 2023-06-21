@@ -5,13 +5,13 @@
 
 ## About project
 
-This is a simple snake in console which i wrote when was bored, lol :p
+This is a simple snake in console which I wrote when was bored, lol :p
 
 I don't know what else to say about this project, this is a typical snake familiar to everyone
 
 ### Specifics
 - Project using **OOP** and **SOLID**
-- Procedural algorithm realisation in **True OOP**
+- Procedural algorithm realisation in **true OOP**
 - Clearest **DI**
 
 ## Conclusion
